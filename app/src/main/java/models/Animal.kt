@@ -6,11 +6,13 @@ import android.os.Parcelable
 data class Animal(
     var name: String?,
     var type: String?,
-    var age: Int?
+    var age: Int?,
+    var displayed: Int?,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
+        parcel.readInt(),
         parcel.readInt()
     )
 
@@ -21,6 +23,7 @@ data class Animal(
         parcel.writeString(name)
         parcel.writeString(type)
         parcel.writeInt(age!!)
+        parcel.writeInt(displayed!!)
     }
 
     override fun describeContents(): Int {
