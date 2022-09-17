@@ -2,12 +2,15 @@ package com.pakevankeren.ternakbox
 
 import adapters.AnimalsDataRVAdapter
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalListBinding
 import models.Animal
+import utils.Enums
+import utils.SnackbarsManager
 import utils.States
 
 class AnimalListActivity : AppCompatActivity() {
@@ -20,8 +23,19 @@ class AnimalListActivity : AppCompatActivity() {
         binding = ActivityAnimalListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        loadListener()
         setupRecyclerView()
+        loadSnackbarManager()
         loadData()
+
+    }
+
+    private fun loadListener() {
+        binding.animalListViewAddButton.setOnClickListener {
+            startActivity(Intent(this, AnimalFormActivity::class.java).apply {
+                putExtra(Enums.CREATE_ANIMAL_PE_KEY, true)
+            })
+        }
     }
 
     private fun setupRecyclerView() {
@@ -38,9 +52,7 @@ class AnimalListActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadData() {
-
-        // add a placeholder animal
-        States.animalsList.add(
+        if (States.animalsList.size < 1) States.animalsList.add(
             Animal(
                 name = "Placeholder",
                 type = "placeholder",
@@ -48,17 +60,19 @@ class AnimalListActivity : AppCompatActivity() {
                 displayed = 0
             )
         )
+        adapter.notifyDataSetChanged()
+    }
 
-        States.animalsList.add(
-            Animal(
-                name = "My SHEPI",
-                type = "placeholder",
-                age = 0,
-                displayed = 1
-            )
+    @SuppressLint("NotifyDataSetChanged")
+    private fun loadSnackbarManager() {
+        val deletedParcelExtra = intent.getBooleanExtra(Enums.DELETE_ANIMAL_SUCCESS_PE_KEY, false)
+
+        if (deletedParcelExtra) SnackbarsManager.deletedAnimalSnackbar(
+            context = this,
+            root = binding.root,
+            adapter = adapter
         )
 
-        adapter.notifyDataSetChanged()
     }
 
 }

@@ -33,7 +33,7 @@
                 app:srcCompat="@drawable/sq_small" />
 
             <TextView
-                android:id="@+id/viewMovie__movieName"
+                android:id="@+id/animalForm__title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floatingActionButton"
+        android:id="@+id/animalListView__addButton"
         android:layout_width="56dp"
         android:layout_height="wrap_content"
         android:clickable="true"

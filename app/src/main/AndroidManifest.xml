@@ -14,6 +14,9 @@
         android:theme="@style/Theme.Ternakbox"
         tools:targetApi="31">
         <activity
+            android:name=".AnimalFormActivity"
+            android:exported="false" />
+        <activity
             android:name=".DeleteAnimalActivity"
             android:exported="false" />
         <activity
