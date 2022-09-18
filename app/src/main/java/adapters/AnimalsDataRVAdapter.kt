@@ -17,10 +17,10 @@ import utils.Enums
 
 class AnimalsDataRVAdapter(
     private val listAnimals: ArrayList<Animal>,
-    private val context: Context,
+    private val parentContext: Context,
 ) : RecyclerView.Adapter<AnimalsDataRVAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View, private val context1: Context) :
+    class ViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
         private val binding = AnimalCardBinding.bind(itemView)
 
@@ -36,19 +36,19 @@ class AnimalsDataRVAdapter(
 
             binding.animalListDeleteButton.setOnClickListener {
 
-                val intent = Intent(context1, DeleteAnimalActivity::class.java).apply {
+                val intent = Intent(context, DeleteAnimalActivity::class.java).apply {
                     putExtra(Enums.DELETE_ANIMAL_PE_KEY, adapterPosition)
                 }
 
-                context1.startActivity(intent)
+                context.startActivity(intent)
             }
 
             binding.animalListEditButton.setOnClickListener {
-                val intent = Intent(context1, AnimalFormActivity::class.java).apply {
+                val intent = Intent(context, AnimalFormActivity::class.java).apply {
                     putExtra(Enums.EDIT_ANIMAL_PE_KEY, adapterPosition)
                 }
 
-                context1.startActivity(intent)
+                context.startActivity(intent)
             }
         }
     }
@@ -59,7 +59,7 @@ class AnimalsDataRVAdapter(
     ): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.animal_card, parent, false)
-        return ViewHolder(view, context)
+        return ViewHolder(view, parentContext)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

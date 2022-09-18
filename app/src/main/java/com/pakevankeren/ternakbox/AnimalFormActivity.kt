@@ -4,7 +4,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalFormBinding
@@ -65,7 +64,7 @@ class AnimalFormActivity : AppCompatActivity() {
 
         animal.imageUri = image
 
-        if (validateForm(animal)) {
+        if (formIsValidated(animal)) {
             States.animalsList.add(animal)
 
             val intent = Intent(this, AnimalListActivity::class.java).apply {
@@ -107,7 +106,7 @@ class AnimalFormActivity : AppCompatActivity() {
 
         animal.imageUri = image
 
-        if (validateForm(animal)) {
+        if (formIsValidated(animal)) {
             States.animalsList[position] = animal
             val intent = Intent(this, AnimalListActivity::class.java).apply {
                 putExtra(Enums.EDIT_ANIMAL_SUCCESS_PE_KEY, true)
@@ -119,10 +118,10 @@ class AnimalFormActivity : AppCompatActivity() {
 
     }
 
-    private fun validateForm(animal: Animal): Boolean {
+    private fun formIsValidated(model: Animal): Boolean {
         var valid = false
 
-        if (animal.name!!.isEmpty()) {
+        if (model.name!!.isEmpty()) {
             binding.animalFormViewNameInput.error = "Name cannot be empty!"
             valid = false
         } else {
@@ -130,7 +129,7 @@ class AnimalFormActivity : AppCompatActivity() {
             valid = true
         }
 
-        if (animal.type!!.isEmpty()) {
+        if (model.type!!.isEmpty()) {
             binding.animalFormInputTypeInput.error = "Type of animal cannot be empty!"
             valid = false
         } else {
@@ -138,7 +137,7 @@ class AnimalFormActivity : AppCompatActivity() {
             valid = true
         }
 
-        if (animal.age!! < 1) {
+        if (model.age!! < 1) {
             binding.animalFormViewNameInput.error = "Age cannot be <1 year old!"
             valid = false
         } else {
