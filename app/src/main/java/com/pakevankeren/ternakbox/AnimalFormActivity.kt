@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalFormBinding
@@ -84,11 +85,16 @@ class AnimalFormActivity : AppCompatActivity() {
 
     private fun loadEditData() {
         val animal = States.animalsList[position]
+
         image = animal.imageUri
         binding.animalFormViewNameInput.editText?.setText(animal.name)
         binding.animalFormInputTypeInput.editText?.setText(animal.type)
-        binding.animalFormInputAgeInput.editText?.setText(animal.age!!)
-        binding.animalFormViewImageEditor.setImageURI(Uri.parse(animal.imageUri))
+        binding.animalFormInputAgeInput.editText?.setText(animal.age!!.toString())
+        if (animal.imageUri.isNotBlank()) binding.animalFormViewImageEditor.setImageURI(
+            Uri.parse(
+                animal.imageUri
+            )
+        )
     }
 
     private fun editAnimal() {

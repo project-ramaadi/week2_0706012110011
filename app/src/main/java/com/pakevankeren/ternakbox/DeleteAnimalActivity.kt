@@ -1,6 +1,7 @@
 package com.pakevankeren.ternakbox
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.pakevankeren.ternakbox.databinding.ActivityDeleteAnimalBinding
@@ -23,7 +24,8 @@ class DeleteAnimalActivity : AppCompatActivity() {
         val animalDeleteId = intent.getIntExtra(Enums.DELETE_ANIMAL_PE_KEY, 0)
         val deletionAnimal = States.animalsList[animalDeleteId]
 
-        binding.deleteAnimalViewWarning.text = "Are you sure that you want to delete the animal '${deletionAnimal.name}'? "
+        binding.deleteAnimalViewWarning.text =
+            "Are you sure that you want to delete the animal '${deletionAnimal.name}'? "
 
         binding.deleteAnimalViewCancelButton.setOnClickListener {
             val intent = Intent(this, AnimalListActivity::class.java)
@@ -31,6 +33,11 @@ class DeleteAnimalActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        if (deletionAnimal.imageUri.isNotBlank()) binding.imageView.setImageURI(
+            Uri.parse(
+                deletionAnimal.imageUri
+            )
+        )
         binding.deleteAnimalViewDeleteButton.setOnClickListener {
             States.lastDeletedAnimal = deletionAnimal
             States.animalsList.removeAt(animalDeleteId)
