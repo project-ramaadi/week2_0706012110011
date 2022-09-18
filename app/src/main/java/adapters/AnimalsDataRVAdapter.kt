@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.pakevankeren.ternakbox.AnimalFormActivity
 import com.pakevankeren.ternakbox.DeleteAnimalActivity
 import com.pakevankeren.ternakbox.R
 import com.pakevankeren.ternakbox.databinding.AnimalCardBinding
@@ -34,6 +35,7 @@ class AnimalsDataRVAdapter(
 
 
             binding.animalListDeleteButton.setOnClickListener {
+
                 val intent = Intent(context1, DeleteAnimalActivity::class.java).apply {
                     putExtra(Enums.DELETE_ANIMAL_PE_KEY, adapterPosition)
                 }
@@ -42,6 +44,11 @@ class AnimalsDataRVAdapter(
             }
 
             binding.animalListEditButton.setOnClickListener {
+                val intent = Intent(context1, AnimalFormActivity::class.java).apply {
+                    putExtra(Enums.EDIT_ANIMAL_PE_KEY, adapterPosition)
+                }
+
+                context1.startActivity(intent)
             }
         }
     }

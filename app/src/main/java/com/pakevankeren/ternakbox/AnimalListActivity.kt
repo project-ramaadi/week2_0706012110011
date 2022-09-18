@@ -5,7 +5,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalListBinding
 import models.Animal
@@ -65,12 +64,25 @@ class AnimalListActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadSnackbarManager() {
-        val deletedParcelExtra = intent.getBooleanExtra(Enums.DELETE_ANIMAL_SUCCESS_PE_KEY, false)
+        val deletedPE = intent.getBooleanExtra(Enums.DELETE_ANIMAL_SUCCESS_PE_KEY, false)
+        val animalCreationPE =
+            intent.getBooleanExtra(Enums.CREATE_ANIMAL_SUCCESS_PE_KEY, false)
+        val editedPE = intent.getBooleanExtra(Enums.EDIT_ANIMAL_SUCCESS_PE_KEY, false)
 
-        if (deletedParcelExtra) SnackbarsManager.deletedAnimalSnackbar(
+        if (deletedPE) SnackbarsManager.deletedAnimalSnackbar(
             context = this,
             root = binding.root,
             adapter = adapter
+        )
+
+        if (animalCreationPE) SnackbarsManager.newAnimalCreationSnackbar(
+            context = this,
+            root = binding.root,
+            adapter = adapter
+        )
+
+        if (editedPE) SnackbarsManager.editedAnimalSnackbar(
+            root = binding.root
         )
 
     }
