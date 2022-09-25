@@ -5,10 +5,12 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalListBinding
 import models.Animal
 import utils.Enums
+import utils.GenericSnackbar
 import utils.SnackbarsManager
 import utils.States
 
@@ -75,11 +77,33 @@ class AnimalListActivity : AppCompatActivity() {
             adapter = adapter
         )
 
-        if (animalCreationPE) SnackbarsManager.newAnimalCreationSnackbar(
+//        if (animalCreationPE) SnackbarsManager.newAnimalCreationSnackbar(
+//            context = this,
+//            root = binding.root,
+//            adapter = adapter
+//        )
+
+
+        if (animalCreationPE) GenericSnackbar(
             context = this,
             root = binding.root,
-            adapter = adapter
-        )
+            text = "Animal has been created!"
+        ).hasAction(
+            text = "Revert creation",
+            actionColor = GenericSnackbar.COLOR_DANGER(),
+            action = { context, _ ->
+                AlertDialog.Builder(context)
+                    .setTitle("Revert creation")
+                    .setMessage("Are you sure you want to revert? This action cannot be undone")
+                    .setNegativeButton("No") { _, _ -> }
+                    .setPositiveButton("Yes") { _, _ ->
+                        run {
+                            States.animalsList.removeAt(States.animalsList.size - 1)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }.show()
+            }
+        ).show()
 
         if (editedPE) SnackbarsManager.editedAnimalSnackbar(
             root = binding.root
