@@ -82,20 +82,17 @@ class AnimalListActivity : AppCompatActivity() {
             }
 
             "chicken" -> States.animalsList.forEachIndexed { index, animal ->
-                if (animal is Chicken) animal.displayed = true
-                if (animal !is Chicken) animal.displayed = false
+                animal.displayed = animal is Chicken
                 if (index == 0) animal.displayed = false
             }
 
             "cow" -> States.animalsList.forEachIndexed { index, animal ->
-                if (animal is Cow) animal.displayed = true
-                if (animal !is Cow) animal.displayed = false
+                animal.displayed = animal is Cow
                 if (index == 0) animal.displayed = false
             }
 
             "goat" -> States.animalsList.forEachIndexed { index, animal ->
-                if (animal is Goat) animal.displayed = true
-                if (animal !is Goat) animal.displayed = false
+                animal.displayed = animal is Goat
                 if (index == 0) animal.displayed = false
             }
         }
