@@ -97,19 +97,22 @@ class AnimalFormActivity : AppCompatActivity() {
         "chicken" -> Chicken(
             name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
             age = nonNullAge(),
-            displayed = 1
+            displayed = true,
+            showInFilter = true
         )
 
         "cow" -> Cow(
             name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
             age = nonNullAge(),
-            displayed = 1
+            displayed = true,
+            showInFilter = true
         )
 
         "goat" -> Goat(
             name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
             age = nonNullAge(),
-            displayed = 1
+            displayed = true,
+            showInFilter = true
         )
 
         else -> throw Exception("Invalid animal!!!")
@@ -174,22 +177,22 @@ class AnimalFormActivity : AppCompatActivity() {
 
         when (true) {
 
-            model.name!!.isEmpty() -> {
+            model.name.isEmpty() -> {
                 binding.animalFormViewNameInput.error = "Name cannot be empty!"
                 valid = false
             }
 
-            model.name!!.isNotEmpty() -> {
+            model.name.isNotEmpty() -> {
                 binding.animalFormViewNameInput.error = ""
                 valid = true
             }
 
-            model.age!! < 1 -> {
+            model.age < 1 -> {
                 binding.animalFormViewNameInput.error = "Age cannot be <1 year old!"
                 valid = false
             }
 
-            model.age!! > 1 -> {
+            model.age > 1 -> {
                 binding.animalFormViewNameInput.error = ""
                 valid = true
             }

@@ -3,9 +3,9 @@ package models.animals
 import models.foods.Food
 import models.foods.Seed
 
-class Chicken(name: String?, age: Int?, displayed: Int?) : Animal(
+class Chicken(name: String, age: Int, displayed: Boolean, showInFilter: Boolean) : Animal(
     name, age,
-    displayed
+    displayed, showInFilter
 ) {
 
     override fun sound(): String {

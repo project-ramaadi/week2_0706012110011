@@ -7,6 +7,8 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.pakevankeren.ternakbox.AnimalFormActivity
@@ -20,12 +22,36 @@ import models.animals.Goat
 import models.foods.Grass
 import models.foods.Seed
 import utils.Enums
-import utils.SnackbarUtil
 
 class AnimalsDataRVAdapter(
     private val listAnimals: ArrayList<Animal>,
     private val parentContext: Context,
 ) : RecyclerView.Adapter<AnimalsDataRVAdapter.ViewHolder>() {
+
+    override fun getItemCount(): Int {
+        return listAnimals.size
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val view = layoutInflater.inflate(R.layout.animal_card, parent, false)
+        return ViewHolder(view, parentContext)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+        val lp = holder.itemView.layoutParams
+
+        if (!(listAnimals[position].displayed) || !(listAnimals[position].showInFilter)) {
+            lp.height = 0
+            lp.width = 0
+        }
+
+        holder.setData(listAnimals[position])
+    }
 
     class ViewHolder(itemView: View, private val context: Context) :
         RecyclerView.ViewHolder(itemView) {
@@ -35,7 +61,7 @@ class AnimalsDataRVAdapter(
         @SuppressLint("SetTextI18n")
         fun setData(data: Animal) {
             binding.animalListName.text = data.name
-            binding.animalListAge.text = "Animal's age: ${data.age.toString()}"
+            binding.animalListAge.text = "Animal's age: ${data.age}"
             binding.animalListType.text = "Type: " + when (true) {
                 data is Chicken -> "Chicken"
                 data is Cow -> "Cow"
@@ -43,7 +69,10 @@ class AnimalsDataRVAdapter(
                 else -> "Unknown"
             }
 
-            if (data.imageUri.isNotEmpty()) binding.animalListImage.setImageURI(Uri.parse(data.imageUri))
+            if (data.imageUri.isNotEmpty())
+                binding
+                    .animalListImage
+                    .setImageURI(Uri.parse(data.imageUri))
 
             loadListener(data)
         }
@@ -82,31 +111,9 @@ class AnimalsDataRVAdapter(
                     .show()
             }
         }
+
+
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.animal_card, parent, false)
-        return ViewHolder(view, parentContext)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val lp = holder.itemView.layoutParams
-
-        if (listAnimals[position].displayed == 0) {
-            lp.height = 0
-            lp.width = 0
-        }
-
-        holder.setData(listAnimals[position])
-    }
-
-    override fun getItemCount(): Int {
-        return listAnimals.size
-    }
 
 }

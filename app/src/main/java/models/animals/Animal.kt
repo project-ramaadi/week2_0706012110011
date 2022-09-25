@@ -1,14 +1,14 @@
 package models.animals
 
-import models.foods.Food
 import models.foods.Grass
 import models.foods.Seed
 
 
 abstract class Animal(
-    var name: String?,
-    var age: Int?,
-    var displayed: Int?,
+    var name: String,
+    var age: Int,
+    var displayed: Boolean,
+    var showInFilter: Boolean
 ) {
     var imageUri: String = ""
 

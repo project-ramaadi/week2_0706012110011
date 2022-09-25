@@ -61,7 +61,8 @@ class AnimalListActivity : AppCompatActivity() {
             Chicken(
                 name = "Placeholder",
                 age = 0,
-                displayed = 0
+                displayed = false,
+                showInFilter = false
             )
         )
 

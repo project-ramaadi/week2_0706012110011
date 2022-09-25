@@ -1,8 +1,8 @@
 package models.animals
 
-class Goat(name: String?, age: Int?, displayed: Int?) : Animal(
+class Goat(name: String, age: Int, displayed: Boolean, showInFilter: Boolean) : Animal(
     name, age,
-    displayed
+    displayed, showInFilter
 ) {
 
     override fun sound(): String {
