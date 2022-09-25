@@ -7,13 +7,20 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.pakevankeren.ternakbox.AnimalFormActivity
 import com.pakevankeren.ternakbox.DeleteAnimalActivity
 import com.pakevankeren.ternakbox.R
 import com.pakevankeren.ternakbox.databinding.AnimalCardBinding
 import models.animals.Animal
+import models.animals.Chicken
+import models.animals.Cow
+import models.animals.Goat
+import models.foods.Grass
+import models.foods.Seed
 import utils.Enums
+import utils.SnackbarUtil
 
 class AnimalsDataRVAdapter(
     private val listAnimals: ArrayList<Animal>,
@@ -29,17 +36,23 @@ class AnimalsDataRVAdapter(
         fun setData(data: Animal) {
             binding.animalListName.text = data.name
             binding.animalListAge.text = "Animal's age: ${data.age.toString()}"
-            binding.animalListType.text = data.type
+            binding.animalListType.text = "Type: " + when (true) {
+                data is Chicken -> "Chicken"
+                data is Cow -> "Cow"
+                data is Goat -> "Goat"
+                else -> "Unknown"
+            }
 
             if (data.imageUri.isNotEmpty()) binding.animalListImage.setImageURI(Uri.parse(data.imageUri))
 
+            loadListener(data)
+        }
 
+        private fun loadListener(data: Animal) {
             binding.animalListDeleteButton.setOnClickListener {
-
                 val intent = Intent(context, DeleteAnimalActivity::class.java).apply {
                     putExtra(Enums.DELETE_ANIMAL_PE_KEY, adapterPosition)
                 }
-
                 context.startActivity(intent)
             }
 
@@ -47,8 +60,26 @@ class AnimalsDataRVAdapter(
                 val intent = Intent(context, AnimalFormActivity::class.java).apply {
                     putExtra(Enums.EDIT_ANIMAL_PE_KEY, adapterPosition)
                 }
-
                 context.startActivity(intent)
+            }
+
+            binding.animalListSoundButton.setOnClickListener {
+                Toast
+                    .makeText(context, data.sound(), Toast.LENGTH_SHORT)
+                    .show()
+            }
+
+            binding.animalListFeedButton.setOnClickListener {
+                val feeder = when (true) {
+                    data is Cow -> data.feed(Grass())
+                    data is Goat -> data.feed(Grass())
+                    data is Chicken -> data.feed(Seed())
+                    else -> "Invalid!"
+                }
+
+                Toast
+                    .makeText(context, feeder, Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

@@ -76,7 +76,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/animalList__type" />
 
                 <ImageButton
-                    android:id="@+id/imageButton"
+                    android:id="@+id/animalList__feedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -120,13 +120,13 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <ImageButton
-                    android:id="@+id/imageButton2"
+                    android:id="@+id/animalList__soundButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    app:layout_constraintEnd_toEndOf="@+id/imageButton"
-                    app:layout_constraintStart_toStartOf="@+id/imageButton"
-                    app:layout_constraintTop_toBottomOf="@+id/imageButton"
+                    app:layout_constraintEnd_toEndOf="@+id/animalList__feedButton"
+                    app:layout_constraintStart_toStartOf="@+id/animalList__feedButton"
+                    app:layout_constraintTop_toBottomOf="@+id/animalList__feedButton"
                     app:srcCompat="@drawable/ic_baseline_volume_up_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

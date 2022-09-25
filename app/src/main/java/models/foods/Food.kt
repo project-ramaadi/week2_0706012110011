@@ -1,5 +1,11 @@
 package models.foods
 
-abstract class Food {
-    abstract fun name(): String
+open class Food(
+    name: String
+) {
+    val name: String
+
+    init {
+        this.name = name
+    }
 }

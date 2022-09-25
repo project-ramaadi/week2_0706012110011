@@ -1,7 +1,10 @@
 package models.animals
 
-class Chicken(name: String?, type: String?, age: Int?, displayed: Int?) : Animal(
-    name, type, age,
+import models.foods.Food
+import models.foods.Seed
+
+class Chicken(name: String?, age: Int?, displayed: Int?) : Animal(
+    name, age,
     displayed
 ) {
 

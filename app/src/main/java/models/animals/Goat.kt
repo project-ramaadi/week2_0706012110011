@@ -1,7 +1,7 @@
 package models.animals
 
-class Goat(name: String?, type: String?, age: Int?, displayed: Int?) : Animal(
-    name, type, age,
+class Goat(name: String?, age: Int?, displayed: Int?) : Animal(
+    name, age,
     displayed
 ) {
 

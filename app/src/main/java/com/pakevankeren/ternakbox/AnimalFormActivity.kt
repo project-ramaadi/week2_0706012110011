@@ -1,5 +1,6 @@
 package com.pakevankeren.ternakbox
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -8,6 +9,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalFormBinding
 import models.animals.Animal
+import models.animals.Chicken
+import models.animals.Cow
+import models.animals.Goat
 import utils.Enums
 import utils.States
 
@@ -15,6 +19,7 @@ class AnimalFormActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnimalFormBinding
     private var image = ""
+    private var checkedAnimal = "chicken"
     private var creating = false
     private var position = -1
 
@@ -26,6 +31,7 @@ class AnimalFormActivity : AppCompatActivity() {
         loadListener()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun loadListener() {
         binding.animalFormViewBackButton.setOnClickListener { super.onBackPressed() }
 
@@ -37,6 +43,18 @@ class AnimalFormActivity : AppCompatActivity() {
 
         if (creating) binding.animalFormViewSubmitButton.text =
             "Create" else binding.animalFormViewSubmitButton.text = "Edit"
+
+        binding.animalFormViewChickenRadio.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) checkedAnimal = "chicken"
+        }
+
+        binding.animalFormViewCowRadio.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) checkedAnimal = "cow"
+        }
+
+        binding.animalFormViewGoatRadio.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) checkedAnimal = "goat"
+        }
 
         binding.animalFormViewSubmitButton.setOnClickListener { if (creating) createAnimal() else editAnimal() }
     }
@@ -51,17 +69,15 @@ class AnimalFormActivity : AppCompatActivity() {
             loadEditData()
         }
 
-        if (createAnimalPE) creating = true
+        if (createAnimalPE) {
+            binding.animalFormViewChickenRadio.isChecked = true
+            checkedAnimal = "chicken"
+            creating = true
+        }
     }
 
     private fun createAnimal() {
-        val animal = Animal(
-            name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
-            type = binding.animalFormInputTypeInput.editText?.text!!.toString().trim(),
-            age = nonNullAge(),
-            displayed = 1
-        )
-
+        val animal = selectAnimal()
         animal.imageUri = image
 
         if (formIsValidated(animal)) {
@@ -76,18 +92,58 @@ class AnimalFormActivity : AppCompatActivity() {
         }
     }
 
+    private fun selectAnimal() = when (checkedAnimal) {
+
+        "chicken" -> Chicken(
+            name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
+            age = nonNullAge(),
+            displayed = 1
+        )
+
+        "cow" -> Cow(
+            name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
+            age = nonNullAge(),
+            displayed = 1
+        )
+
+        "goat" -> Goat(
+            name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
+            age = nonNullAge(),
+            displayed = 1
+        )
+
+        else -> throw Exception("Invalid animal!!!")
+    }
+
     private fun nonNullAge(): Int {
         if (binding.animalFormInputAgeInput.editText?.text!!.isEmpty()) return 0
-
         return binding.animalFormInputAgeInput.editText?.text!!.toString().toInt()
     }
 
     private fun loadEditData() {
         val animal = States.animalsList[position]
 
+        when (true) {
+            animal is Chicken -> {
+                binding.animalFormViewChickenRadio.isChecked = true
+                checkedAnimal = "chicken"
+            }
+
+            animal is Cow -> {
+                binding.animalFormViewCowRadio.isChecked = true
+                checkedAnimal = "cow"
+            }
+
+            animal is Goat -> {
+                binding.animalFormViewGoatRadio.isChecked = true
+                checkedAnimal = "goat"
+            }
+
+            else -> {}
+        }
+
         image = animal.imageUri
         binding.animalFormViewNameInput.editText?.setText(animal.name)
-        binding.animalFormInputTypeInput.editText?.setText(animal.type)
         binding.animalFormInputAgeInput.editText?.setText(animal.age!!.toString())
         if (animal.imageUri.isNotBlank()) binding.animalFormViewImageEditor.setImageURI(
             Uri.parse(
@@ -97,12 +153,7 @@ class AnimalFormActivity : AppCompatActivity() {
     }
 
     private fun editAnimal() {
-        val animal = Animal(
-            name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
-            type = binding.animalFormInputTypeInput.editText?.text!!.toString().trim(),
-            age = nonNullAge(),
-            displayed = 1
-        )
+        val animal = selectAnimal()
 
         animal.imageUri = image
 
@@ -121,28 +172,29 @@ class AnimalFormActivity : AppCompatActivity() {
     private fun formIsValidated(model: Animal): Boolean {
         var valid = false
 
-        if (model.name!!.isEmpty()) {
-            binding.animalFormViewNameInput.error = "Name cannot be empty!"
-            valid = false
-        } else {
-            binding.animalFormViewNameInput.error = ""
-            valid = true
-        }
+        when (true) {
 
-        if (model.type!!.isEmpty()) {
-            binding.animalFormInputTypeInput.error = "Type of animal cannot be empty!"
-            valid = false
-        } else {
-            binding.animalFormInputTypeInput.error = ""
-            valid = true
-        }
+            model.name!!.isEmpty() -> {
+                binding.animalFormViewNameInput.error = "Name cannot be empty!"
+                valid = false
+            }
 
-        if (model.age!! < 1) {
-            binding.animalFormViewNameInput.error = "Age cannot be <1 year old!"
-            valid = false
-        } else {
-            binding.animalFormViewNameInput.error = ""
-            valid = true
+            model.name!!.isNotEmpty() -> {
+                binding.animalFormViewNameInput.error = ""
+                valid = true
+            }
+
+            model.age!! < 1 -> {
+                binding.animalFormViewNameInput.error = "Age cannot be <1 year old!"
+                valid = false
+            }
+
+            model.age!! > 1 -> {
+                binding.animalFormViewNameInput.error = ""
+                valid = true
+            }
+
+            else -> {}
         }
 
         return valid

@@ -17,7 +17,11 @@ import utils.States
 class AnimalListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnimalListBinding
-    private var adapter = AnimalsDataRVAdapter(States.animalsList, this)
+
+    private var adapter = AnimalsDataRVAdapter(
+        listAnimals = States.animalsList,
+        parentContext = this,
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +60,6 @@ class AnimalListActivity : AppCompatActivity() {
         if (States.animalsList.size < 1) States.animalsList.add(
             Chicken(
                 name = "Placeholder",
-                type = "placeholder",
                 age = 0,
                 displayed = 0
             )
