@@ -1,6 +1,7 @@
 package adapters
 
 import android.annotation.SuppressLint
+import android.app.ActionBar
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -45,9 +46,21 @@ class AnimalsDataRVAdapter(
 
         val lp = holder.itemView.layoutParams
 
-        if (!(listAnimals[position].displayed) || !(listAnimals[position].showInFilter)) {
+        if (position == 0) {
             lp.height = 0
             lp.width = 0
+        }
+
+        if (!listAnimals[position].displayed) {
+            lp.height = 0
+            lp.width = 0
+        }
+
+        if (listAnimals[position].displayed) {
+            holder.itemView.layoutParams = RecyclerView.LayoutParams(
+                ActionBar.LayoutParams.MATCH_PARENT,
+                ActionBar.LayoutParams.WRAP_CONTENT
+            )
         }
 
         holder.setData(listAnimals[position])

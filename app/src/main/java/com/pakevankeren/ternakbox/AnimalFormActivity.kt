@@ -98,21 +98,18 @@ class AnimalFormActivity : AppCompatActivity() {
             name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
             age = nonNullAge(),
             displayed = true,
-            showInFilter = true
         )
 
         "cow" -> Cow(
             name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
             age = nonNullAge(),
             displayed = true,
-            showInFilter = true
         )
 
         "goat" -> Goat(
             name = binding.animalFormViewNameInput.editText?.text!!.toString().trim(),
             age = nonNullAge(),
             displayed = true,
-            showInFilter = true
         )
 
         else -> throw Exception("Invalid animal!!!")
@@ -147,7 +144,7 @@ class AnimalFormActivity : AppCompatActivity() {
 
         image = animal.imageUri
         binding.animalFormViewNameInput.editText?.setText(animal.name)
-        binding.animalFormInputAgeInput.editText?.setText(animal.age!!.toString())
+        binding.animalFormInputAgeInput.editText?.setText(animal.age.toString())
         if (animal.imageUri.isNotBlank()) binding.animalFormViewImageEditor.setImageURI(
             Uri.parse(
                 animal.imageUri

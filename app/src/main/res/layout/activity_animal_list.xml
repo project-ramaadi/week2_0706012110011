@@ -48,15 +48,64 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <RadioGroup
+        android:id="@+id/radioGroup2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+        <RadioButton
+            android:id="@+id/animalListView__filterAllAnimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:buttonTint="@color/slate_50"
+            android:text="All animal"
+            android:textColor="@color/slate_50" />
+
+        <RadioButton
+            android:id="@+id/animalListView__filterChicken"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:buttonTint="@color/slate_50"
+            android:text="Chicken"
+            android:textColor="@color/slate_50" />
+
+        <RadioButton
+            android:id="@+id/animalListView__filterCow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:buttonTint="@color/slate_50"
+            android:text="Cows"
+            android:textColor="@color/slate_50" />
+
+        <RadioButton
+            android:id="@+id/animalListView__filterGoat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:buttonTint="@color/slate_50"
+            android:text="Goats"
+            android:textColor="@color/slate_50" />
+    </RadioGroup>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/slate_900"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintEnd_toEndOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup2" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/animalListView__addButton"

@@ -8,7 +8,6 @@ abstract class Animal(
     var name: String,
     var age: Int,
     var displayed: Boolean,
-    var showInFilter: Boolean
 ) {
     var imageUri: String = ""
 

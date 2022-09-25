@@ -1,8 +1,8 @@
 package models.animals
 
-class Cow(name: String, age: Int, displayed: Boolean, showInFilter: Boolean) : Animal(
+class Cow(name: String, age: Int, displayed: Boolean,) : Animal(
     name, age,
-    displayed, showInFilter
+    displayed
 ) {
 
     override fun sound(): String {

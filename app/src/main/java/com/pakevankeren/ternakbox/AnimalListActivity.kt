@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalListBinding
 import models.animals.Animal
 import models.animals.Chicken
+import models.animals.Cow
+import models.animals.Goat
 import utils.Enums
 import utils.SnackbarUtil
 import utils.States
@@ -17,6 +19,8 @@ import utils.States
 class AnimalListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnimalListBinding
+
+    private var filter = "all"
 
     private var adapter = AnimalsDataRVAdapter(
         listAnimals = States.animalsList,
@@ -32,6 +36,7 @@ class AnimalListActivity : AppCompatActivity() {
         setupRecyclerView()
         loadSnackbarManager()
         loadData()
+        loadFilter()
 
     }
 
@@ -42,6 +47,62 @@ class AnimalListActivity : AppCompatActivity() {
             })
         }
     }
+
+    private fun loadFilter() {
+        binding.animalListViewFilterAllAnimal.isChecked = true
+        filter = "all"
+        doFiltering()
+
+        binding.animalListViewFilterAllAnimal.setOnClickListener {
+            filter = "all"
+            doFiltering()
+        }
+
+        binding.animalListViewFilterChicken.setOnClickListener {
+            filter = "chicken"
+            doFiltering()
+        }
+
+        binding.animalListViewFilterCow.setOnClickListener {
+            filter = "cow"
+            doFiltering()
+        }
+
+        binding.animalListViewFilterGoat.setOnClickListener {
+            filter = "goat"
+            doFiltering()
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun doFiltering() {
+        when (filter) {
+            "all" -> States.animalsList.forEachIndexed { index, animal ->
+                if (index > 0) animal.displayed = true
+            }
+
+            "chicken" -> States.animalsList.forEachIndexed { index, animal ->
+                if (animal is Chicken) animal.displayed = true
+                if (animal !is Chicken) animal.displayed = false
+                if (index == 0) animal.displayed = false
+            }
+
+            "cow" -> States.animalsList.forEachIndexed { index, animal ->
+                if (animal is Cow) animal.displayed = true
+                if (animal !is Cow) animal.displayed = false
+                if (index == 0) animal.displayed = false
+            }
+
+            "goat" -> States.animalsList.forEachIndexed { index, animal ->
+                if (animal is Goat) animal.displayed = true
+                if (animal !is Goat) animal.displayed = false
+                if (index == 0) animal.displayed = false
+            }
+        }
+
+        adapter.notifyDataSetChanged()
+    }
+
 
     private fun setupRecyclerView() {
         val layoutManager = LinearLayoutManager(baseContext)
@@ -57,12 +118,12 @@ class AnimalListActivity : AppCompatActivity() {
 
     @SuppressLint("NotifyDataSetChanged")
     private fun loadData() {
+
         if (States.animalsList.size < 1) States.animalsList.add(
             Chicken(
                 name = "Placeholder",
                 age = 0,
                 displayed = false,
-                showInFilter = false
             )
         )
 
