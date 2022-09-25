@@ -10,8 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalListBinding
 import models.Animal
 import utils.Enums
-import utils.GenericSnackbar
-import utils.SnackbarsManager
+import utils.SnackbarUtil
 import utils.States
 
 class AnimalListActivity : AppCompatActivity() {
@@ -71,26 +70,35 @@ class AnimalListActivity : AppCompatActivity() {
             intent.getBooleanExtra(Enums.CREATE_ANIMAL_SUCCESS_PE_KEY, false)
         val editedPE = intent.getBooleanExtra(Enums.EDIT_ANIMAL_SUCCESS_PE_KEY, false)
 
-        if (deletedPE) SnackbarsManager.deletedAnimalSnackbar(
+        if (deletedPE) SnackbarUtil(
             context = this,
             root = binding.root,
-            adapter = adapter
-        )
+            text = "Animal has been deleted"
+        ).hasAction(
+            text = "Revert deletion",
+            actionColor = SnackbarUtil.COLOR_DANGER(),
+            action = { context, _ ->
+                AlertDialog.Builder(context)
+                    .setTitle("Revert deletion")
+                    .setMessage("Are you sure you want to revert?")
+                    .setNegativeButton("No") { _, _ -> }
+                    .setPositiveButton("Yes") { _, _ ->
+                        run {
+                            States.animalsList.add(States.lastDeletedAnimal)
+                            adapter.notifyDataSetChanged()
+                        }
+                    }.show()
+            }
+        ).show()
 
-//        if (animalCreationPE) SnackbarsManager.newAnimalCreationSnackbar(
-//            context = this,
-//            root = binding.root,
-//            adapter = adapter
-//        )
 
-
-        if (animalCreationPE) GenericSnackbar(
+        if (animalCreationPE) SnackbarUtil(
             context = this,
             root = binding.root,
             text = "Animal has been created!"
         ).hasAction(
             text = "Revert creation",
-            actionColor = GenericSnackbar.COLOR_DANGER(),
+            actionColor = SnackbarUtil.COLOR_DANGER(),
             action = { context, _ ->
                 AlertDialog.Builder(context)
                     .setTitle("Revert creation")
@@ -105,9 +113,11 @@ class AnimalListActivity : AppCompatActivity() {
             }
         ).show()
 
-        if (editedPE) SnackbarsManager.editedAnimalSnackbar(
-            root = binding.root
-        )
+        if (editedPE) SnackbarUtil(
+            context = this,
+            root = binding.root,
+            text = "Animal has been edited"
+        ).show()
 
     }
 

@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
 
-open class GenericSnackbar(
+open class SnackbarUtil(
     context: Context,
     root: View,
     text: String
@@ -31,7 +31,7 @@ open class GenericSnackbar(
         text: String,
         actionColor: Int,
         action: (context: Context, root: View) -> Unit
-    ): GenericSnackbar {
+    ): SnackbarUtil {
         snackbar.setActionTextColor(actionColor)
         snackbar.setAction(text) {
             action(ctx, rootView)
