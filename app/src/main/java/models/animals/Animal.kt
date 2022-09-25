@@ -1,9 +1,7 @@
-package models
+package models.animals
 
-import android.os.Parcel
-import android.os.Parcelable
 
-data class Animal(
+abstract class Animal(
     var name: String?,
     var type: String?,
     var age: Int?,
@@ -11,4 +9,5 @@ data class Animal(
 ) {
     var imageUri: String = ""
 
+    abstract fun sound(): String
 }

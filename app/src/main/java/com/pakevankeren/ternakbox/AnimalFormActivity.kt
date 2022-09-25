@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalFormBinding
-import models.Animal
+import models.animals.Animal
 import utils.Enums
 import utils.States
 

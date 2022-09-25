@@ -1,6 +1,6 @@
 package utils
 
-import models.Animal
+import models.animals.Animal
 
 object States {
     val animalsList = ArrayList<Animal>()

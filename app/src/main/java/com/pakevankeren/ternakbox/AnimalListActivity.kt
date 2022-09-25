@@ -8,7 +8,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pakevankeren.ternakbox.databinding.ActivityAnimalListBinding
-import models.Animal
+import models.animals.Animal
+import models.animals.Chicken
 import utils.Enums
 import utils.SnackbarUtil
 import utils.States
@@ -53,13 +54,14 @@ class AnimalListActivity : AppCompatActivity() {
     @SuppressLint("NotifyDataSetChanged")
     private fun loadData() {
         if (States.animalsList.size < 1) States.animalsList.add(
-            Animal(
+            Chicken(
                 name = "Placeholder",
                 type = "placeholder",
                 age = 0,
                 displayed = 0
             )
         )
+
         adapter.notifyDataSetChanged()
     }
 

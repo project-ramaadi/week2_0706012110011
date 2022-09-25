@@ -12,7 +12,7 @@ import com.pakevankeren.ternakbox.AnimalFormActivity
 import com.pakevankeren.ternakbox.DeleteAnimalActivity
 import com.pakevankeren.ternakbox.R
 import com.pakevankeren.ternakbox.databinding.AnimalCardBinding
-import models.Animal
+import models.animals.Animal
 import utils.Enums
 
 class AnimalsDataRVAdapter(
